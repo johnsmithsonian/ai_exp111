@@ -1,13 +1,25 @@
-leaf_values = [3, 5, 2, 9]
-
-def minimax(is_maximizing):
-    if is_maximizing:
-        return max(leaf_values)
+def minimax(node, depth, is_maximizing_player):
+    if depth == 2:
+        return node
+    
+    if is_maximizing_player:
+        best_value = float('-inf')
+        for child in node:
+            value = minimax(child, depth + 1, False)
+            best_value = max(best_value, value)
+        return best_value
+    
     else:
-        return min(leaf_values)
+        best_value = float('inf')
+        for child in node:
+            value = minimax(child, depth + 1, True)
+            best_value = min(best_value, value)
+        return best_value
 
-def best_move():
-    return minimax(True)
+game_tree = [
+    [3, 5], 
+    [2, 9]
+]
 
-best_value = best_move()
-print(f"Best move value for maximizing player: {best_value}")
+optimal_value = minimax(game_tree, 0, True)
+print(f"The optimal move value for the maximizing player is: {optimal_value}")
